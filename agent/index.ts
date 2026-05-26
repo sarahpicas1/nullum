@@ -76,7 +76,7 @@ export function createNullumAgent() {
 
   try {
     // Try the latest model first, fall back to older versions if needed
-    const models = ["gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"];
+    const models = ["gemini-pro"];
     let llm: ChatGoogleGenerativeAI | null = null;
     let lastError: Error | null = null;
 
