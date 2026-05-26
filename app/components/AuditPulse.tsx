@@ -3,16 +3,16 @@
 import { useState, useEffect, useCallback } from "react";
 
 const MIRROR_URL =
-  "https://testnet.mirrornode.hedera.com/api/v1/topics/0.0.9054947/messages?limit=5&order=desc";
+  "https://testnet.mirrornode.hedera.com/api/v1/topics/0.0.9054947/messages?limit=100&order=desc";
 
 const HASHSCAN_BASE = "https://hashscan.io/testnet/topic/0.0.9054947";
 
 const DECISION_COLORS: Record<string, string> = {
-  loan: "#3b82f6",
-  fraud: "#ef4444",
-  hiring: "#a855f7",
-  content: "#f97316",
-  risk: "#eab308",
+  loan_approval: "#3b82f6",
+  fraud_detection: "#ef4444",
+  hiring_decision: "#a855f7",
+  content_moderation: "#f97316",
+  risk_scoring: "#eab308",
 };
 
 function getDecisionColor(type: string): string {
@@ -104,10 +104,20 @@ function AuditCard({ record }: { record: AuditRecord }) {
         {record.decisionType.replace(/_/g, " ")}
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "9px" }}>
+      <div style={{ marginBottom: "9px" }}>
         <div
           style={{
-            flex: 1,
+            fontSize: "10px",
+            color: "#888",
+            fontFamily: "'JetBrains Mono', monospace",
+            letterSpacing: "0.06em",
+            marginBottom: "5px",
+          }}
+        >
+          CONFIDENCE {pct.toFixed(0)}%
+        </div>
+        <div
+          style={{
             height: "3px",
             background: "#1e1e1e",
             borderRadius: "2px",
@@ -124,17 +134,6 @@ function AuditCard({ record }: { record: AuditRecord }) {
             }}
           />
         </div>
-        <span
-          style={{
-            fontSize: "10px",
-            color: "#888",
-            fontFamily: "'JetBrains Mono', monospace",
-            minWidth: "34px",
-            textAlign: "right",
-          }}
-        >
-          {pct.toFixed(0)}%
-        </span>
       </div>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
@@ -314,7 +313,7 @@ export function AuditPulse() {
         </div>
 
         {/* Feed */}
-        <div style={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
+        <div style={{ overflowY: "auto", maxHeight: "420px" }}>
           {loading ? (
             <>
               <SkeletonCard />
