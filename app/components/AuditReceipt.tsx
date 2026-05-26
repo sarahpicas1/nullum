@@ -70,8 +70,6 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 export function AuditReceipt({ receipt }: Props) {
-  const nftCertId = `${receipt.nftTokenId}:${receipt.nftSerial}`;
-
   return (
     <div
       style={{
@@ -110,13 +108,14 @@ export function AuditReceipt({ receipt }: Props) {
           <Row label="Audit ID" value={receipt.auditId} />
           <Row label="HCS Topic ID" value={receipt.hcsTopicId} />
           <Row
-            label="HCS Sequence #"
+            label="HCS Sequence No."
             value={receipt.hcsSequenceNumber.toString()}
           />
-          <Row label="NFT Certificate" value={nftCertId} />
+          <Row label="NFT Token ID" value={receipt.nftTokenId} />
+          <Row label="NFT Serial No." value={receipt.nftSerial.toString()} />
           <Row label="HBAR Paid" value={`${receipt.hbarPaid.toFixed(6)} ℏ`} />
           <Row label="USD Equivalent" value={`$${receipt.usdEquivalent.toFixed(2)}`} />
-          <Row label="Price Source" value={`price via ${receipt.priceSource}`} />
+          <Row label="Price Source" value={receipt.priceSource} />
           <Row label="Payment TX" value={receipt.paymentTxId} />
           <Row label="Timestamp" value={receipt.timestamp} />
         </tbody>

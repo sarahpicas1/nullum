@@ -15,7 +15,7 @@ let resolvedTokenId: string | null = null;
 export async function ensureNftTokenId(): Promise<string> {
   if (resolvedTokenId) return resolvedTokenId;
 
-  const envTokenId = process.env.NULLUM_NFT_TOKEN_ID;
+  const envTokenId = process.env.NULLUM_NFT_TOKEN_ID?.split(':')[0];
   if (envTokenId) {
     resolvedTokenId = envTokenId;
     return resolvedTokenId;

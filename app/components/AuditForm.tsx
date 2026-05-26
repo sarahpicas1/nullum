@@ -171,7 +171,7 @@ export function AuditForm() {
           <textarea
             value={output}
             onChange={(e) => setOutput(e.target.value)}
-            placeholder="e.g. APPROVED — credit score 720, DTI 28%, no derogatory marks"
+            placeholder="e.g. Approved: credit score 720, DTI 28%, no derogatory marks"
             style={{ ...inputStyle, height: "72px", resize: "vertical" }}
             required
           />

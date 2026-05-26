@@ -13,7 +13,7 @@ const panelStyle: React.CSSProperties = {
 export default function HomePage() {
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a" }}>
-      {/* ── Top bar ─────────────────────────────────────────────────── */}
+      {/* Top bar */}
       <header
         style={{
           borderBottom: "1px solid #1a1a1a",
@@ -47,7 +47,7 @@ export default function HomePage() {
         </span>
       </header>
 
-      {/* ── Main content ────────────────────────────────────────────── */}
+      {/* Main content */}
       <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "32px 24px" }}>
         {/* Two-panel layout */}
         <div
@@ -66,11 +66,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Recent Audits feed ─────────────────────────────────────── */}
+        {/* Recent Audits feed */}
         <RecentAuditsFeed />
       </main>
 
-      {/* ── Footer ──────────────────────────────────────────────────── */}
+      {/* Footer */}
       <footer
         style={{
           borderTop: "1px solid #1a1a1a",
@@ -84,7 +84,7 @@ export default function HomePage() {
           NULLUM v0.1.0
         </span>
         <span style={{ fontSize: "11px", color: "#333" }}>
-          Built on Hedera · Testnet
+          Built on Hedera  ·  Testnet
         </span>
       </footer>
     </div>
