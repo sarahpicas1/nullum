@@ -1,5 +1,5 @@
 import { AuditForm } from "./components/AuditForm";
-import { ChatInterface } from "./components/ChatInterface";
+import { AuditPulse } from "./components/AuditPulse";
 
 const panelStyle: React.CSSProperties = {
   background: "#111",
@@ -56,13 +56,14 @@ export default function HomePage() {
             gap: "20px",
             marginBottom: "28px",
             flexWrap: "wrap",
+            alignItems: "stretch",
           }}
         >
           <div style={panelStyle}>
             <AuditForm />
           </div>
-          <div style={{ ...panelStyle, minWidth: "340px" }}>
-            <ChatInterface />
+          <div style={{ ...panelStyle, minWidth: "340px", display: "flex", flexDirection: "column" }}>
+            <AuditPulse />
           </div>
         </div>
 
