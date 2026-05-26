@@ -160,7 +160,7 @@ export function AuditForm() {
             type="text"
             value={modelUsed}
             onChange={(e) => setModelUsed(e.target.value)}
-            placeholder="e.g. gemini-1.5-flash"
+            placeholder="e.g. gemini-1.5-flash-latest"
             style={inputStyle}
             required
           />

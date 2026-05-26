@@ -126,7 +126,7 @@ curl -X POST http://localhost:3000/api/agent \
     "payload": {
       "decisionId": "dec_test_001",
       "decisionType": "loan_approval",
-      "modelUsed": "gemini-1.5-flash",
+      "modelUsed": "gemini-1.5-flash-latest",
       "inputs": {
         "creditScore": 720,
         "annualIncome": 85000,

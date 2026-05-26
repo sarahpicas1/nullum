@@ -75,11 +75,35 @@ export function createNullumAgent() {
   }
 
   try {
-    const llm = new ChatGoogleGenerativeAI({
-      model: "gemini-1.5-flash",
-      apiKey,
-      temperature: 0,
-    });
+    // Try the latest model first, fall back to older versions if needed
+    const models = ["gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"];
+    let llm: ChatGoogleGenerativeAI | null = null;
+    let lastError: Error | null = null;
+
+    for (const modelName of models) {
+      try {
+        console.log(`[Agent] Attempting to initialize with model: ${modelName}`);
+        llm = new ChatGoogleGenerativeAI({
+          model: modelName,
+          apiKey,
+          temperature: 0,
+        });
+        console.log(`[Agent] Successfully initialized with model: ${modelName}`);
+        break;
+      } catch (err) {
+        lastError = err as Error;
+        console.warn(
+          `[Agent] Model ${modelName} not available: ${(err as Error).message}`
+        );
+        continue;
+      }
+    }
+
+    if (!llm) {
+      throw new Error(
+        `No compatible Gemini model found. Last error: ${lastError?.message}`
+      );
+    }
 
     const agent = createReactAgent({
       llm,
