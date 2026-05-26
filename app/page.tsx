@@ -67,8 +67,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Recent Audits feed */}
-        <RecentAuditsFeed />
       </main>
 
       {/* Footer */}
@@ -88,37 +86,6 @@ export default function HomePage() {
           Built on Hedera  ·  Testnet
         </span>
       </footer>
-    </div>
-  );
-}
-
-function RecentAuditsFeed() {
-  return (
-    <div
-      style={{
-        background: "#111",
-        border: "1px solid #1e1e1e",
-        borderRadius: "4px",
-        padding: "20px 24px",
-      }}
-    >
-      <div
-        style={{
-          fontSize: "11px",
-          color: "#555",
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          marginBottom: "16px",
-          paddingBottom: "10px",
-          borderBottom: "1px solid #1a1a1a",
-        }}
-      >
-        Recent Audit Activity
-      </div>
-
-      <div style={{ fontSize: "12px", color: "#333", fontStyle: "italic" }}>
-        Audit records appear here after submission. Each entry links to its HCS log on HashScan.
-      </div>
     </div>
   );
 }
