@@ -68,40 +68,67 @@ const getAuditFeeTool = tool(
 // ── Agent factory ──────────────────────────────────────────────────────────
 export function createNullumAgent() {
   const apiKey = process.env.GOOGLE_API_KEY;
-  if (!apiKey) throw new Error("GOOGLE_API_KEY is not set");
+  if (!apiKey) {
+    throw new Error(
+      "GOOGLE_API_KEY is not set. Get a free key at https://aistudio.google.com"
+    );
+  }
 
-  const llm = new ChatGoogleGenerativeAI({
-    model: "gemini-1.5-flash",
-    apiKey,
-    temperature: 0,
-  });
+  try {
+    const llm = new ChatGoogleGenerativeAI({
+      model: "gemini-1.5-flash",
+      apiKey,
+      temperature: 0,
+    });
 
-  const agent = createReactAgent({
-    llm,
-    tools: [auditDecisionTool, getAuditFeeTool],
-    messageModifier: SYSTEM_PROMPT,
-  });
+    const agent = createReactAgent({
+      llm,
+      tools: [auditDecisionTool, getAuditFeeTool],
+      messageModifier: SYSTEM_PROMPT,
+    });
 
-  return agent;
+    return agent;
+  } catch (err) {
+    throw new Error(
+      `Failed to initialize Nullum agent: ${(err as Error).message}`
+    );
+  }
 }
 
 // ── Convenience: run a single message through the agent ───────────────────
 export async function runAgent(message: string): Promise<string> {
-  const agent = createNullumAgent();
+  try {
+    console.log(`[Agent] Creating agent for message: ${message.substring(0, 40)}`);
+    const agent = createNullumAgent();
+    console.log("[Agent] Agent created successfully");
 
-  const result = await agent.invoke({
-    messages: [new HumanMessage(message)],
-  });
+    console.log("[Agent] Invoking with HumanMessage");
+    const result = await agent.invoke(
+      {
+        messages: [new HumanMessage(message)],
+      },
+      { timeout: 20000 } // 20-second timeout for the agent invocation
+    );
+    console.log("[Agent] Invocation completed");
 
-  const lastMessage = result.messages[result.messages.length - 1];
-  const content = lastMessage.content;
+    const lastMessage = result.messages[result.messages.length - 1];
+    const content = lastMessage.content;
 
-  if (typeof content === "string") return content;
-  if (Array.isArray(content)) {
-    return content
-      .map((c) => (typeof c === "string" ? c : JSON.stringify(c)))
-      .join("\n");
+    console.log(`[Agent] Response type: ${typeof content}`);
+
+    if (typeof content === "string") return content;
+    if (Array.isArray(content)) {
+      return content
+        .map((c) => (typeof c === "string" ? c : JSON.stringify(c)))
+        .join("\n");
+    }
+
+    return JSON.stringify(content);
+  } catch (err) {
+    console.error("[Agent] Error in runAgent:", {
+      message: (err as Error).message,
+      stack: (err as Error).stack,
+    });
+    throw err;
   }
-
-  return JSON.stringify(content);
 }

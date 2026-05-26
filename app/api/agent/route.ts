@@ -80,14 +80,23 @@ export async function POST(req: NextRequest) {
     }
 
     try {
+      console.log(`[Nullum API] Chat request: ${message.substring(0, 50)}`);
       const reply = await runAgent(message);
+      console.log(`[Nullum API] Chat response generated: ${reply.substring(0, 50)}`);
       return NextResponse.json({ type: "chat", message: reply });
     } catch (err) {
-      console.error("[Nullum] Agent error:", err);
+      const errorMsg = (err as Error).message;
+      const errorStack = (err as Error).stack;
+      console.error("[Nullum API] Chat failed:", {
+        message: errorMsg,
+        stack: errorStack,
+        rawError: err,
+      });
       return NextResponse.json(
         {
-          error: "Agent error",
-          detail: (err as Error).message,
+          error: "Chat failed",
+          detail: errorMsg,
+          type: (err as Error).constructor.name,
         },
         { status: 500 }
       );
