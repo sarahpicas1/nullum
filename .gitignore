@@ -1,0 +1,14 @@
+# environment variables - never commit these
+.env.local
+.env
+
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# misc
+.DS_Store
+*.log
