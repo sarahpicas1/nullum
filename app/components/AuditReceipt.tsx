@@ -121,7 +121,7 @@ export function AuditReceipt({ receipt }: Props) {
         </tbody>
       </table>
 
-      <div style={{ marginTop: "16px", borderTop: "1px solid #1a2a1a", paddingTop: "14px" }}>
+      <div style={{ marginTop: "16px", borderTop: "1px solid #1a2a1a", paddingTop: "14px", display: "flex", gap: "16px" }}>
         <a
           href={receipt.explorerUrl}
           target="_blank"
@@ -137,6 +137,22 @@ export function AuditReceipt({ receipt }: Props) {
           }}
         >
           View on HashScan →
+        </a>
+        <a
+          href={`https://hashscan.io/testnet/token/${receipt.nftTokenId}/${receipt.nftSerial}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: "#4ade80",
+            fontSize: "12px",
+            fontFamily: "'JetBrains Mono', monospace",
+            textDecoration: "none",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
+          }}
+        >
+          View NFT Certificate →
         </a>
       </div>
     </div>

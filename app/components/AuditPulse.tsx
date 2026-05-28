@@ -31,17 +31,19 @@ function formatTimestamp(ts: string): string {
   return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()} · ${h}:${m} UTC`;
 }
 
-function decodeHCSMessage(b64: string): { decisionType: string; confidence: number } {
+function decodeHCSMessage(b64: string): { decisionType: string; confidence: number; auditFeeHbar: number } {
   try {
     const json = JSON.parse(atob(b64));
     const raw = json.confidence ?? 0;
     const confidence = typeof raw === "number" ? (raw <= 1 ? raw * 100 : raw) : 0;
+    const auditFeeHbar = typeof json.auditFeeHbar === "number" ? json.auditFeeHbar : 0;
     return {
       decisionType: json.decisionType ?? json.decision_type ?? "other",
       confidence,
+      auditFeeHbar,
     };
   } catch {
-    return { decisionType: "other", confidence: 0 };
+    return { decisionType: "other", confidence: 0, auditFeeHbar: 0 };
   }
 }
 
@@ -50,6 +52,7 @@ interface AuditRecord {
   timestamp: string;
   decisionType: string;
   confidence: number;
+  auditFeeHbar: number;
 }
 
 function SkeletonCard() {
@@ -173,6 +176,7 @@ function AuditCard({ record }: { record: AuditRecord }) {
 export function AuditPulse() {
   const [records, setRecords] = useState<AuditRecord[]>([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [totalFees, setTotalFees] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [refreshIn, setRefreshIn] = useState(30);
@@ -194,10 +198,14 @@ export function AuditPulse() {
           timestamp: formatTimestamp(m.consensus_timestamp),
           decisionType: decoded.decisionType,
           confidence: decoded.confidence,
+          auditFeeHbar: decoded.auditFeeHbar,
         };
       });
 
+      const feesSum = parsed.reduce((sum, r) => sum + r.auditFeeHbar, 0);
+
       setRecords(parsed);
+      setTotalFees(feesSum);
       if (messages.length > 0) setTotalCount(messages[0].sequence_number);
     } catch {
       setError(true);
@@ -306,9 +314,32 @@ export function AuditPulse() {
               color: "#3a3a3a",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
+              marginBottom: "16px",
             }}
           >
             Decisions Audited On-Chain
+          </div>
+
+          <div
+            style={{
+              fontSize: "16px",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontWeight: 600,
+              color: "#e8e0d0",
+              marginBottom: "5px",
+            }}
+          >
+            {totalFees.toFixed(2)} ℏ
+          </div>
+          <div
+            style={{
+              fontSize: "10px",
+              color: "#3a3a3a",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            Total Fees Paid
           </div>
         </div>
 
