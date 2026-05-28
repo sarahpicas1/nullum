@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AuditForm } from "./components/AuditForm";
 import { AuditPulse } from "./components/AuditPulse";
 
@@ -35,16 +36,32 @@ export default function HomePage() {
         >
           NULLUM
         </span>
-        <span
-          style={{
-            fontSize: "11px",
-            color: "#444",
-            letterSpacing: "0.06em",
-            fontStyle: "italic",
-          }}
-        >
-          No AI decision without a record.
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <span
+            style={{
+              fontSize: "11px",
+              color: "#444",
+              letterSpacing: "0.06em",
+              fontStyle: "italic",
+            }}
+          >
+            No AI decision without a record.
+          </span>
+          <Link
+            href="/verify"
+            style={{
+              fontSize: "11px",
+              color: "#888",
+              textDecoration: "none",
+              letterSpacing: "0.04em",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#e8e0d0")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#888")}
+          >
+            Verify a record →
+          </Link>
+        </div>
       </header>
 
       {/* Main content */}

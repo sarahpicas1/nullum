@@ -51,6 +51,16 @@ The project is built on Node.js 20+ with the Hedera Agent Kit v4 JavaScript fram
 | Frontend | Next.js 14 App Router |
 | Deployment | Netlify with serverless functions |
 
+## Features
+
+The Nullum interface provides two key capabilities:
+
+**Audit Submission** – The left panel contains the audit form. Submit any AI decision with its decision type, model used, output, and confidence score. Nullum automatically calculates the USD/HBAR conversion, executes the payment, mints the NFT certificate, and logs the record to Hedera. Within seconds, you receive a structured receipt with the HCS sequence number, NFT ID, and HashScan link.
+
+**Audit Pulse** – The right panel displays a live on-chain visualization of recent audits pulled from the Hedera Consensus Service topic. Each audit card shows the decision type, confidence score, and timestamp, color-coded by decision category. The feed refreshes every 30 seconds. This panel demonstrates that all records are truly permanent and publicly queryable.
+
+**Verify** – Visit `/verify` to look up any audit by Audit ID or HCS sequence number. The verification page queries the Hedera mirror node, decodes the record, and displays the full audit trail with a HashScan link for independent confirmation. This allows regulators and counterparties to audit AI decisions without intermediaries.
+
 ## Getting Started
 
 ### Prerequisites
@@ -126,7 +136,7 @@ curl -X POST http://localhost:3000/api/agent \
     "payload": {
       "decisionId": "dec_test_001",
       "decisionType": "loan_approval",
-      "modelUsed": "gemini-1.5-flash-latest",
+      "modelUsed": "gemini-2.0-flash",
       "inputs": {
         "creditScore": 720,
         "annualIncome": 85000,
@@ -159,15 +169,19 @@ The response will include the full audit receipt:
 }
 ```
 
-### Chat with the Agent
+### Verify an Audit Record
 
-You can also query the agent conversationally:
+Any audit can be independently verified by visiting the verify page and entering an Audit ID or HCS sequence number:
 
-```bash
-curl -X POST http://localhost:3000/api/agent \
-  -H "Content-Type: application/json" \
-  -d '{"type": "chat", "message": "What is the current audit fee in HBAR?"}'
 ```
+http://localhost:3000/verify
+```
+
+Enter either:
+- An Audit ID (e.g., `dec_test_001`)
+- An HCS sequence number (e.g., `5`)
+
+The verify page queries the Hedera mirror node, decodes the permanent HCS record, and displays all audit fields with a link to HashScan for independent confirmation. This allows auditors, regulators, and counterparties to verify any decision without needing a wallet or special access.
 
 ## Hedera Tools and Integrations
 
