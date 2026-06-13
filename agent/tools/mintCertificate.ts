@@ -5,10 +5,9 @@ import {
   TokenSupplyType,
   TokenId,
   AccountId,
-  PrivateKey,
   Hbar,
 } from "@hashgraph/sdk";
-import { createHederaClient } from "../../lib/hedera";
+import { createHederaClient, parsePrivateKey } from "../../lib/hedera";
 
 let resolvedTokenId: string | null = null;
 
@@ -23,7 +22,7 @@ export async function ensureNftTokenId(): Promise<string> {
 
   const client = createHederaClient();
   const operatorId = process.env.HEDERA_ACCOUNT_ID!;
-  const operatorKey = PrivateKey.fromString(process.env.HEDERA_PRIVATE_KEY!);
+  const operatorKey = parsePrivateKey(process.env.HEDERA_PRIVATE_KEY!);
 
   const tx = await new TokenCreateTransaction()
     .setTokenName("Nullum Audit Certificate")

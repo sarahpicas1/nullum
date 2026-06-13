@@ -75,35 +75,16 @@ export function createNullumAgent() {
   }
 
   try {
-    // Try the latest model first, fall back to older versions if needed
-    const models = ["gemini-pro"];
-    let llm: ChatGoogleGenerativeAI | null = null;
-    let lastError: Error | null = null;
-
-    for (const modelName of models) {
-      try {
-        console.log(`[Agent] Attempting to initialize with model: ${modelName}`);
-        llm = new ChatGoogleGenerativeAI({
-          model: modelName,
-          apiKey,
-          temperature: 0,
-        });
-        console.log(`[Agent] Successfully initialized with model: ${modelName}`);
-        break;
-      } catch (err) {
-        lastError = err as Error;
-        console.warn(
-          `[Agent] Model ${modelName} not available: ${(err as Error).message}`
-        );
-        continue;
-      }
-    }
-
-    if (!llm) {
-      throw new Error(
-        `No compatible Gemini model found. Last error: ${lastError?.message}`
-      );
-    }
+    // gemini-2.5-flash is fast, supports tool/function calling (required by the
+    // ReAct agent), and works on the Google AI Studio free tier. Overridable via
+    // GEMINI_MODEL. NB: the legacy "gemini-pro" alias 404s on the current API.
+    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    console.log(`[Agent] Initializing with model: ${modelName}`);
+    const llm = new ChatGoogleGenerativeAI({
+      model: modelName,
+      apiKey,
+      temperature: 0,
+    });
 
     const agent = createReactAgent({
       llm,

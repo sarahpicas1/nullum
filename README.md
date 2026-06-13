@@ -224,6 +224,33 @@ git commit -m "feat: Nullum Week 1 AI Decision Audit Agent"
 git push -u origin main
 ```
 
+## Why I Built Nullum
+
+I kept thinking about how much we trust AI systems to make decisions like loan approvals, fraud flags, hiring calls... and yet there 
+is no permanent record of what happened. If someone challenges a decision, 
+the company can say anything. There is nothing to verify against. That felt 
+wrong to me.
+
+The name Nullum comes from the legal principle "nullum crimen sine lege" :
+no crime without law. I flipped it: no AI decision without a record. 
+
+I chose Hedera specifically because of HCS.Hedera gives you finality in seconds with predictable fees and I did not want to build on infrastructure that could reorg or 
+surprise me with gas spikes.
+
+The AuditPulse panel on the right side was not in the original plan. I had 
+built a chat interface first but it felt dishonest, the agent was just 
+talking about data that was already on-chain. Replacing it with a live feed 
+directly from the Hedera mirror node felt more true to what Nullum is 
+supposed to be. 
+
+The hardest parts were the CoinCap plugin  failing silently on localhost, the Gemini model names being deprecated  mid-build, the NFT metadata limit of 100 bytes that I only discovered when the first mint failed on testnet. Those are the problems that teach me more about how 
+Hedera actually works.
+
+If I built Nullum again I would start with the verify page. Being able to 
+look up any audit record by ID and get the full on-chain proof back is the 
+most honest demonstration of what the product does. Everything else is 
+interface, that is the substance.
+
 ### Connect to Netlify
 
 Visit [app.netlify.com](https://app.netlify.com), select "Add new site", and choose "Import an existing project". Connect your GitHub repository. Build settings are automatically detected from `netlify.toml`.
