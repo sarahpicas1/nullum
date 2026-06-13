@@ -71,6 +71,64 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* ACP machine-readable notice */}
+        <div
+          style={{
+            border: "1px solid #1a1e1a",
+            borderRadius: "4px",
+            padding: "14px 20px",
+            background: "#0d110d",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "12px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span
+              style={{
+                display: "inline-block",
+                width: "7px",
+                height: "7px",
+                borderRadius: "50%",
+                background: "#3a7a3a",
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontSize: "12px",
+                color: "#5a8a5a",
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: "0.04em",
+              }}
+            >
+              This agent is ACP-readable
+            </span>
+            <span style={{ fontSize: "11px", color: "#333" }}>
+              — AI agents can query audit decisions programmatically via the index endpoint.
+            </span>
+          </div>
+          <a
+            href="/api/acp"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "11px",
+              color: "#3a7a3a",
+              fontFamily: "'JetBrains Mono', monospace",
+              textDecoration: "none",
+              border: "1px solid #1a3a1a",
+              borderRadius: "3px",
+              padding: "4px 10px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            GET /api/acp →
+          </a>
+        </div>
+
       </main>
 
       {/* Footer */}
